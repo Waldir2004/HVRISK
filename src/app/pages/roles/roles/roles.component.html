@@ -1,0 +1,69 @@
+<mat-card class="cardWithShadow">
+    <mat-card-content>
+        <mat-card-title>Listado de roles</mat-card-title>
+        <div class="button-container">
+            <button mat-flat-button color="primary" matTooltip="Crear nuevo rol" (click)="openCreateRoleDialog()">
+                <mat-icon>add</mat-icon>
+                Crear rol
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource1" class="w-100">
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">Nombre</th>
+                    <td mat-cell *matCellDef="let element" class="p-l-0">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/images/roles/roles.png" alt="users" width="60" class="rounded" />
+                            <div class="m-l-16">
+                                <h6 class="mat-subtitle-1 f-s-14 f-w-600">
+                                    {{ element.nombre }}
+                                </h6>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Estado Column -->
+                <!-- Estado Column -->
+                <!-- Estado Column -->
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">Estado</th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        <span [ngClass]="{
+              'bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12': element.estado === 1,
+              'bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12': element.estado === 0
+            }">
+                            {{ element.estado === 1 ? 'Activo' : 'Inactivo' }}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">Acciones</th>
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14"></th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="openEditRoleDialog(element.id)">
+                                <mat-icon>edit</mat-icon>
+                                <span>Editar</span>
+                            </button>
+                            <button mat-menu-item>
+                                <mat-icon>delete</mat-icon>
+                                <span>Eliminar</span>
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

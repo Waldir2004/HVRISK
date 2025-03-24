@@ -1,0 +1,40 @@
+<mat-toolbar class="topbar">
+  <app-branding></app-branding>
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- Desktop Menu -->
+
+  <!-- <button mat-icon-button (click)="toggleCollapsed.emit()" class="d-flex justify-content-center">
+    <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
+  </button> -->
+
+
+  <!-- Mobile Menu -->
+
+  <button mat-icon-button (click)="toggleMobileNav.emit()" class="d-flex justify-content-center">
+    <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
+  </button>
+
+
+  <!-- --------------------------------------------------------------- -->
+
+  <span class="flex-1-auto"></span>
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- profile Dropdown -->
+  <!-- --------------------------------------------------------------- -->
+  <button mat-icon-button [matMenuTriggerFor]="profilemenu" aria-label="Notifications">
+    <img src="/assets/images/profile/profile.png" class="rounded-circle object-cover icon-35 profile-dd" width="35" />
+  </button>
+  <mat-menu #profilemenu="matMenu" class="cardWithShadow">
+    <!-- <button mat-menu-item>
+      <mat-icon>settings</mat-icon> Settings </button> -->
+    <button mat-menu-item>
+      <mat-icon>account_box</mat-icon> Perfil </button>
+    <!-- <button mat-menu-item>
+      <mat-icon>notifications_off</mat-icon> Disable notifications </button> -->
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon> Cerrar Sesión
+    </button>
+  </mat-menu>
+</mat-toolbar>

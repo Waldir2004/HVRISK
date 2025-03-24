@@ -1,0 +1,38 @@
+<div class="flex">
+  <div class="user-profile profile-bar" style="background: url(assets/images/backgrounds/user-info.jpg) no-repeat">
+    <!-- User profile image -->
+    <div class="profile-img">
+      <img src="assets/images/profile/profile.png" alt="user" width="50" class="rounded-circle" />
+    </div>
+    <!-- User profile text-->
+    <!-- ============================================================== -->
+    <!-- Profile - style you can find in header.scss -->
+    <!-- ============================================================== -->
+    <div class="profile-text">
+      <a [matMenuTriggerFor]="sdprofile" class="d-flex align-items-center text-white w-100 f-s-16">
+        {{ userName }}
+        <i-tabler name="chevron-down" class="icon-18 m-l-auto"></i-tabler>
+      </a>
+    </div>
+    <mat-menu #sdprofile="matMenu" xPosition="after" class="cardWithShadow profile-dd">
+      <!-- <button mat-menu-item>
+        <mat-icon class="d-flex align-items-center"><i-tabler name="settings"
+            class="icon-18 d-flex"></i-tabler></mat-icon>
+        Settings
+      </button> -->
+      <button mat-menu-item>
+        <mat-icon class="d-flex align-items-center"><i-tabler name="users" class="icon-18 d-flex"></i-tabler></mat-icon>
+        Perfil
+      </button>
+      <!-- <button mat-menu-item>
+        <mat-icon class="d-flex align-items-center"><i-tabler name="bell-off"
+            class="icon-18 d-flex"></i-tabler></mat-icon>
+        Desactivar notificaciones
+      </button> -->
+      <button mat-menu-item (click)="logout()">
+        <mat-icon class="d-flex align-items-center"><i-tabler name="logout" class="icon-18 d-flex"></i-tabler></mat-icon>
+        Cerrar Sesión
+      </button>
+    </mat-menu>
+  </div>
+</div>

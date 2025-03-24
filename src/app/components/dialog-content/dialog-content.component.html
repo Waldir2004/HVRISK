@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Resultado de la Predicción</h1>
+<div mat-dialog-content>
+  <p>{{data.mensaje}}</p>
+  <ul>
+    <li *ngFor="let recomendacion of data.recomendaciones">{{recomendacion}}</li>
+  </ul>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onClose()">Cerrar</button>
+</div>

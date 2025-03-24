@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Crear nuevo rol</h2>
+<mat-dialog-content>
+    <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- Nombre del rol -->
+                <mat-label class="f-w-600 m-b-8 d-block">Nombre del rol</mat-label>
+                <mat-form-field appearance="outline" class="w-100" color="primary">
+                    <input matInput formControlName="roleName" placeholder="Nombre del rol" required />
+                </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+                <!-- Estado del rol -->
+                <mat-label class="f-w-600 m-b-8 d-block">Estado</mat-label>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-select formControlName="roleStatus" [disabled]="true">
+                        <mat-option *ngFor="let status of statuses" [value]="status.value">
+                            {{ status.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+                <mat-selection-list formControlName="modules">
+                    <mat-label class="f-w-600 m-b-8 d-block">Asignar modulos</mat-label>
+                    <mat-list-option *ngFor="let module of modules" [value]="module.id">
+                      {{ module.nombre }}
+                    </mat-list-option>
+                  </mat-selection-list>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions class="button-container">
+    <button mat-flat-button color="warn" (click)="onCancel()">Cancelar</button>
+    <button mat-flat-button color="primary" [disabled]="!roleForm.valid" (click)="onSubmit()">Crear</button>
+</mat-dialog-actions>

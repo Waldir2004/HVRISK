@@ -1,0 +1,127 @@
+<h2 mat-dialog-title>Crear nuevo usuario</h2>
+<mat-dialog-content>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-lg-6">
+        <!-- Nombre -->
+        <mat-label class="f-w-600 m-b-8 d-block">Nombres</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput formControlName="userName" placeholder="Nombres del usuario" required />
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <!-- Apellidos -->
+        <mat-label class="f-w-600 m-b-8 d-block">Apellidos</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput formControlName="userLastName" placeholder="Apellidos del usuario" required />
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <!-- Rol -->
+        <mat-label class="f-w-600 m-b-8 d-block">Rol</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="userRole">
+            <mat-option *ngFor="let role of roles" [value]="role.id">
+              {{ role.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <!-- Apellidos -->
+        <mat-label class="f-w-600 m-b-8 d-block">Correo electronico</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput formControlName="userEmail" placeholder="Correo electrónico del usuario" required />
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Contraseña</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="userPassword" placeholder="Contraseña del usuario" required />
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Rol -->
+        <mat-label class="f-w-600 m-b-8 d-block">Genero</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="userGender">
+            <mat-option *ngFor="let genero of generos" [value]="genero.id">
+              {{ genero.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Fecha de nacimiento -->
+        <mat-label class="f-w-600 m-b-8 d-block">Fecha de nacimiento</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput type="date" formControlName="userDate" required />
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Rol -->
+        <mat-label class="f-w-600 m-b-8 d-block">Tipos de identificacion</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="userTipoIdentificacion">
+            <mat-option *ngFor="let tipoIdentificacion of tiposIdentificacion" [value]="tipoIdentificacion.id">
+              {{ tipoIdentificacion.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Apellidos -->
+        <mat-label class="f-w-600 m-b-8 d-block">Numero de identificacion</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput formControlName="userNumberIdentification" placeholder="Numero de identificacion del usuario"
+            required />
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Apellidos -->
+        <mat-label class="f-w-600 m-b-8 d-block">Telefono</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput type="number" formControlName="userPhone" placeholder="Telefono del usuario" required />
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Apellidos -->
+        <mat-label class="f-w-600 m-b-8 d-block">Direccion</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput formControlName="userAdress" placeholder="Direccion del usuario" required />
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Foto -->
+        <mat-label class="f-w-600 m-b-8 d-block">Foto</mat-label>
+        <input type="file" (change)="onFileSelected($event)" required />
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Estado -->
+        <mat-label class="f-w-600 m-b-8 d-block">Estado</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="userStatus" [disabled]="true">
+            <mat-option *ngFor="let status of statuses" [value]="status.value">
+              {{ status.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="button-container">
+  <button mat-flat-button color="warn" (click)="onCancel()">Cancelar</button>
+  <button mat-flat-button color="primary" [disabled]="!userForm.valid" (click)="onSubmit()">Crear</button>
+</mat-dialog-actions>
