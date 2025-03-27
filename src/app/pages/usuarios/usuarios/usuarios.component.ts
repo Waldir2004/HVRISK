@@ -9,6 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateUserDialogComponent } from 'src/app/components/users/create-user-dialog/create-user-dialog.component';
+import { EditUserDialogComponent } from 'src/app/components/users/edit-user-dialog/edit-user-dialog.component';
+import { ConfirmDialogComponent } from 'src/app/components/users/confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -43,6 +45,12 @@ export class UsuariosComponent implements OnInit{
     });
   }
 
+  loadUser(): void {
+    this.http.get('http://127.0.0.1:8000/get_user').subscribe((response: any) => {
+      this.dataUsers = response.resultado;
+    });
+  }
+
   openCreateUserDialog() {
     const dialogRef = this.dialog.open(CreateUserDialogComponent);
 
@@ -54,4 +62,41 @@ export class UsuariosComponent implements OnInit{
       }
     });
   }
+
+  openEditUserDialog(usuario: any) {
+    console.log('Abriendo modal para usuario:', usuario);
+
+    const dialogRef = this.dialog.open(EditUserDialogComponent, {
+      width: '500px',
+      data: usuario, // Enviamos todo el usuario
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Modal cerrado', result);
+    });
+  }
+
+  deleteUser(userId: number): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: { message: '¿Estás seguro de que deseas eliminar este usuario?' },
+    });
+  
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.http.delete(`http://127.0.0.1:8000/delete_user/${userId}`).subscribe(
+          () => {
+            console.log(`Usuario con ID ${userId} eliminado`);
+            this.loadUsers(); // Refrescar la lista de usuarios
+          },
+          (error) => {
+            console.error('Error al eliminar usuario:', error);
+          }
+        );
+      }
+    });
+  }
+
+
+
 }
