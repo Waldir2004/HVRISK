@@ -23,22 +23,27 @@ export const navItems: NavItem[] = [
     route: '/prediccion',
   },
   {
-    displayName: 'Historial Paciente',
+    displayName: 'ECG',
     iconName: 'history',
-    route: '/historial',
+    route: '/ecg',
   },
   {
-    displayName: 'Reservas',
+    displayName: 'Resultados',
     iconName: 'calendar-clock',
-    route: '/reservas',
+    route: '/resultados',
   },
   {
-    displayName: 'Citas',
-    iconName: 'calendar-event',
-    route: '/citas',
+    displayName: 'NutriAnalizador',
+    iconName: 'calendar-clock',
+    route: '/nutrianalizador',
   },
   {
     navCap: 'Configuraciones',
+  },
+  {
+    displayName: 'Perfil',
+    iconName: 'user',
+    route: '/perfil',
   },
   {
     displayName: 'Usuarios',
@@ -50,20 +55,25 @@ export const navItems: NavItem[] = [
     iconName: 'user-circle',
     route: '/roles',
   },
-  // Otros elementos comentados...
+  {
+    displayName: 'Parametros',
+    iconName: 'user-circle',
+    route: '/parametros',
+  },
 ];
 
 export function getFilteredNavItems(permisos: string[]): NavItem[] {
   const mapaPermisosRutas: { [key: string]: string } = {
     '1': '/dashboard',
-    '2': '/paciente',
-    '3': '/historial',
-    '4': '/reservas',
-    '5': '/citas',
-    '6': '/usuarios',
-    '7': '/roles',
-    '8': '/prediccion',
-    // Añadir más mapeos según sea necesario
+    '2': '/pacientes',
+    '3': '/prediccion',
+    '4': '/ecg',
+    '5': '/resultados',
+    '6': '/nutrianalizador',
+    '7': '/perfil',
+    '8': '/usuarios',
+    '9': '/roles',
+    '10': '/parametros',
   };
 
   const rutasPermitidas = permisos.map(id => mapaPermisosRutas[id]).filter(route => route);

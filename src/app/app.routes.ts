@@ -31,22 +31,10 @@ export const routes: Routes = [
           import('./pages/pages.routes').then((m) => m.PagesRoutes),
       },
       {
-        path: 'ui-components',
-        loadChildren: () =>
-          import('./pages/ui-components/ui-components.routes').then(
-            (m) => m.UiComponentsRoutes
-          ),
-      },
-      {
-        path: 'extra',
-        loadChildren: () =>
-          import('./pages/extra/extra.routes').then((m) => m.ExtraRoutes),
-      },
-      {
         path: 'pacientes',
         loadChildren: () =>
-          import('./pages/paciente/paciente.module').then(
-            (m) => m.PacienteModule
+          import('./pages/pacientes/pacientes.module').then(
+            (m) => m.PacientesModule
           ),
       },
       {
@@ -57,24 +45,31 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'historial',
+        path: 'ecg',
         loadChildren: () =>
-          import('./pages/historial/historial.module').then(
-            (m) => m.HistorialModule
+          import('./pages/ecg/ecg.module').then(
+            (m) => m.ECGModule
           ),
       },
       {
-        path: 'reservas',
+        path: 'resultados',
         loadChildren: () =>
-          import('./pages/reservas/reservas.module').then(
-            (m) => m.ReservasModule
+          import('./pages/resultados/resultados.module').then(
+            (m) => m.ResultadosModule
           ),
       },
       {
-        path: 'citas',
+        path: 'nutrianalizador',
         loadChildren: () =>
-          import('./pages/citas/citas.module').then(
-            (m) => m.CitasModule
+          import('./pages/nutrianalizador/nutrianalizador.module').then(
+            (m) => m.NutrianalizadorModule
+          ),
+      },
+      {
+        path: 'perfil',
+        loadChildren: () =>
+          import('./pages/perfil/perfil.module').then(
+            (m) => m.PerfilModule
           ),
       },
       {
@@ -91,13 +86,13 @@ export const routes: Routes = [
             (m) => m.RolesModule
           ),
       },
-      // {
-      //   path: 'permisos',
-      //   loadChildren: () =>
-      //     import('./pages/permisos/permisos.module').then(
-      //       (m) => m.PermisosModule
-      //     ),
-      // },
+      {
+        path: 'parametros',
+        loadChildren: () =>
+          import('./pages/parametros/parametros.module').then(
+            (m) => m.ParametrosModule
+          ),
+      },
     ],
   },
   {
