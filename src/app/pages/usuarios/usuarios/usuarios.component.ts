@@ -40,14 +40,8 @@ export class UsuariosComponent implements OnInit{
   }
 
   loadUsers(): void {
-    this.http.get('http://127.0.0.1:8000/get_users').subscribe((response: any) => {
-      this.dataUsers = response.resultado;
-    });
-  }
-
-  loadUser(): void {
-    this.http.get('http://127.0.0.1:8000/get_user').subscribe((response: any) => {
-      this.dataUsers = response.resultado;
+    this.http.get('http://127.0.0.1:8000/usuarios/listar').subscribe((response: any) => {
+      this.dataUsers = response.usuarios;
     });
   }
 
@@ -84,7 +78,7 @@ export class UsuariosComponent implements OnInit{
   
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
-        this.http.delete(`http://127.0.0.1:8000/delete_user/${userId}`).subscribe(
+        this.http.delete(`http://127.0.0.1:8000/usuarios/eliminar/${userId}`).subscribe(
           () => {
             console.log(`Usuario con ID ${userId} eliminado`);
             this.loadUsers(); // Refrescar la lista de usuarios

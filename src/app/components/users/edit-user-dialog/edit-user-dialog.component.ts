@@ -40,10 +40,10 @@ export class EditUserDialogComponent implements OnInit {
     { value: 2, viewValue: 'Inactivo' },
   ];
 
-  private editUserUrl = 'http://127.0.0.1:8000/edit_user';
-  private getRolesUrl = 'http://127.0.0.1:8000/get_roles';
-  private getGenerosUrl = 'http://127.0.0.1:8000/get_parametro_valor_por_parametro_id/1';
-  private getTipoIdentificacionUrl = 'http://127.0.0.1:8000/get_parametro_valor_por_parametro_id/5';
+  private editUserUrl = 'http://127.0.0.1:8000/usuarios/actualizar';
+  private getRolesUrl = 'http://127.0.0.1:8000/roles/listar';
+  private getGenerosUrl = 'http://127.0.0.1:8000/parametros-valor/por-parametro/2';
+  private getTipoIdentificacionUrl = 'http://127.0.0.1:8000/parametros-valor/por-parametro/1';
 
   constructor(
     private fb: FormBuilder,
@@ -79,7 +79,7 @@ export class EditUserDialogComponent implements OnInit {
   loadRoles(): void {
     this.http.get<any>(this.getRolesUrl).subscribe(
       (response) => {
-        this.roles = response.resultado;
+        this.roles = response.roles;
         console.log('Roles cargados:', this.roles);
       },
       (error) => {
@@ -91,7 +91,7 @@ export class EditUserDialogComponent implements OnInit {
   loadGeneros(): void {
     this.http.get<any>(this.getGenerosUrl).subscribe(
       (response) => {
-        this.generos = response.resultado;
+        this.generos = response.valores;
         console.log('Géneros cargados:', this.generos);
       },
       (error) => {
@@ -103,7 +103,7 @@ export class EditUserDialogComponent implements OnInit {
   loadTipoIdentificacion(): void {
     this.http.get<any>(this.getTipoIdentificacionUrl).subscribe(
       (response) => {
-        this.tiposIdentificacion = response.resultado;
+        this.tiposIdentificacion = response.valores;
         console.log('Tipos de identificación cargados:', this.tiposIdentificacion);
       },
       (error) => {

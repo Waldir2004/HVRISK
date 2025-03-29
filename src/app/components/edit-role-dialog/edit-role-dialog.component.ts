@@ -29,10 +29,10 @@ export class EditRoleDialogComponent implements OnInit {
   editRoleForm: FormGroup;
   modules: any[] = [];
 
-  private modulesUrl ='http://127.0.0.1:8000/get_modulos';
-  private permisosUrl = 'http://127.0.0.1:8000/get_permisos_por_rol';
-  private editRoleUrl = 'http://127.0.0.1:8000/edit_role';
-  private editPermisosUrl = 'http://127.0.0.1:8000/edit_permisos_por_rol';
+  private modulesUrl ='http://127.0.0.1:8000/modulos/listar';
+  private permisosUrl = 'http://127.0.0.1:8000/permisos/por-rol';
+  private editRoleUrl = 'http://127.0.0.1:8000/roles/actualizar';
+  private editPermisosUrl = 'http://127.0.0.1:8000/permisos/actualizar-por-rol';
 
   constructor(
     private fb: FormBuilder,
@@ -55,10 +55,10 @@ export class EditRoleDialogComponent implements OnInit {
 
   loadRoleData(): void {
     console.log('Role ID:', this.data.roleId);
-    this.http.get(`http://127.0.0.1:8000/get_role/${this.data.roleId}`).subscribe((role: any) => {
+    this.http.get(`http://127.0.0.1:8000/roles/obtener/${this.data.roleId}`).subscribe((role: any) => {
       this.editRoleForm.patchValue({
-        nombre: role.resultado.nombre,
-        estado: role.resultado.estado === 1 ? 'activo' : 'inactivo'
+        nombre: role.modulos.nombre,
+        estado: role.modulos.estado === 1 ? 'activo' : 'inactivo'
       });
     });
   }
@@ -66,7 +66,7 @@ export class EditRoleDialogComponent implements OnInit {
   loadModules() {
     this.http.get<any>(this.modulesUrl).subscribe(
       response => {
-        this.modules = response.resultado;
+        this.modules = response.modulos;
       },
       error => {
         console.error('Error al cargar los módulos:', error);
