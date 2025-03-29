@@ -52,9 +52,9 @@ export class PrediccionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadGeneros();
-    this.loadColesterol();
-    this.loadGlucosa();
+    // this.loadGeneros();
+    // this.loadColesterol();
+    // this.loadGlucosa();
   }
 
   // loadGeneros(): void {
@@ -93,32 +93,32 @@ export class PrediccionComponent implements OnInit {
   // }
 
   onSubmit(): void {
-    if (this.prediccionForm.valid) {
-      const token = localStorage.getItem('decodedToken');
-      if (token) {
-        try {
-          const decodedToken = JSON.parse(token);
-          const id = decodedToken?.id;
-          if (id) {
-            this.prediccionForm.patchValue({ usuario_id: id });
-          }
-        } catch (error) {
-          console.error('Error parsing token from localStorage', error);
-        }
-      }
-      console.log('Formulario válido:', this.prediccionForm.value);
-      this.http.post(this.createPrediccionUrl, this.prediccionForm.value).subscribe(
-        (response: any) => {
-          console.log('Predicción creada exitosamente:', response);
-          this.openDialog(response.mensaje, response.recomendaciones);
-        },
-        error => {
-          console.error('Error al crear la predicción:', error);
-        }
-      );
-    } else {
-      console.error('Formulario no válido');
-    }
+    // if (this.prediccionForm.valid) {
+    //   const token = localStorage.getItem('decodedToken');
+    //   if (token) {
+    //     try {
+    //       const decodedToken = JSON.parse(token);
+    //       const id = decodedToken?.id;
+    //       if (id) {
+    //         this.prediccionForm.patchValue({ usuario_id: id });
+    //       }
+    //     } catch (error) {
+    //       console.error('Error parsing token from localStorage', error);
+    //     }
+    //   }
+    //   console.log('Formulario válido:', this.prediccionForm.value);
+    //   this.http.post(this.createPrediccionUrl, this.prediccionForm.value).subscribe(
+    //     (response: any) => {
+    //       console.log('Predicción creada exitosamente:', response);
+    //       this.openDialog(response.mensaje, response.recomendaciones);
+    //     },
+    //     error => {
+    //       console.error('Error al crear la predicción:', error);
+    //     }
+    //   );
+    // } else {
+    //   console.error('Formulario no válido');
+    // }
   }
 
   openDialog(mensaje: string, recomendaciones: string[]): void {
