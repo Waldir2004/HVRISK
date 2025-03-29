@@ -10,6 +10,8 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MaterialModule } from '../../../material.module';
 import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-side-login',
@@ -20,22 +22,15 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    CommonModule,
   ],
   templateUrl: './side-login.component.html',
 })
 export class AppSideLoginComponent {
-  private inactivityTimeout: any;
 
   constructor(private router: Router, private http: HttpClient) {
     const token = localStorage.getItem("access_token");
 
-    if (token) {
-        this.validateToken(token);
-        this.resetInactivityTimeout();
-    } else {
-        alert("Token no encontrado. Por favor, inicia sesión.");
-        this.router.navigate(['/authentication/login']);
-    }
 }
 
 
@@ -84,40 +79,5 @@ export class AppSideLoginComponent {
     }).join(''));
 
     return JSON.parse(jsonPayload);
-  }
-
-  private validateToken(token: string) {
-    this.http.post("http://127.0.0.1:8000/verifytoken", {}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).subscribe(
-      (response: any) => {
-        console.log("Token valido: ", response.data);
-      },
-      (error) => {
-        if (error.status === 401) {
-          alert(error.error.message);
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("decodedToken");
-          window.location.href = "../../index.html";
-        } else {
-          console.error("Error durante la validación del token: ", error);
-          alert("Error durante la validación del token. Inténtalo de nuevo.");
-        }
-      }
-    );
-  }
-
-  @HostListener('document:mousemove')
-  @HostListener('document:keydown')
-  resetInactivityTimeout() {
-    clearTimeout(this.inactivityTimeout);
-    this.inactivityTimeout = setTimeout(() => {
-      alert("Sesión expirada por inactividad. Por favor, inicia sesión de nuevo.");
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("decodedToken");
-      window.location.href = "../../index.html";
-    }, 300000); // 5 minutos en milisegundos
   }
 }

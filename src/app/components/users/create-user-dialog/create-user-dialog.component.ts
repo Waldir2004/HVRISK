@@ -40,12 +40,10 @@ export class CreateUserDialogComponent {
     { value: 2, viewValue: 'Inactivo' },
   ];
 
-  private createUser = 'http://127.0.0.1:8000/create_user';
-  private getRoles = 'http://127.0.0.1:8000/get_roles';
-  private getGeneros =
-    'http://127.0.0.1:8000/get_parametro_valor_por_parametro_id/1';
-  private getTipoIdentificacion =
-    'http://127.0.0.1:8000/get_parametro_valor_por_parametro_id/5';
+  private createUser = 'http://127.0.0.1:8000/usuarios/crear';
+  private getRoles = 'http://127.0.0.1:8000/roles/listar';
+  private getGeneros ='http://127.0.0.1:8000/parametros-valor/por-parametro/2';
+  private getTipoIdentificacion ='http://127.0.0.1:8000/parametros-valor/por-parametro/1';
 
   constructor(
     private fb: FormBuilder,
@@ -78,7 +76,7 @@ export class CreateUserDialogComponent {
   loadRoles(): void {
     this.http.get<any>(this.getRoles).subscribe(
       (response) => {
-        this.roles = response.resultado;
+        this.roles = response.roles;
       },
       (error) => {
         console.error('Error al cargar los roles:', error);
@@ -89,7 +87,7 @@ export class CreateUserDialogComponent {
   loadGeneros(): void {
     this.http.get<any>(this.getGeneros).subscribe(
       (response) => {
-        this.generos = response.resultado;
+        this.generos = response.valores;
       },
       (error) => {
         console.error('Error al cargar los generos:', error);
@@ -100,7 +98,7 @@ export class CreateUserDialogComponent {
   loadTipoIdentificacion(): void {
     this.http.get<any>(this.getTipoIdentificacion).subscribe(
       (response) => {
-        this.tiposIdentificacion = response.resultado;
+        this.tiposIdentificacion = response.valores;
       },
       (error) => {
         console.error('Error al cargar los tipos de identificacion:', error);

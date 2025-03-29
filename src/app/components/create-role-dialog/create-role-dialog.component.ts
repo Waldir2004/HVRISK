@@ -33,9 +33,9 @@ export class CreateRoleDialogComponent {
   ];
 
   modules: any[] = [];
-  private apiUrl = 'http://127.0.0.1:8000/create_role';
-  private modulesUrl ='http://127.0.0.1:8000/get_modulos';
-  private permisosUrl = 'http://127.0.0.1:8000/create_permiso';
+  private apiUrl = 'http://127.0.0.1:8000/roles/crear';
+  private modulesUrl ='http://127.0.0.1:8000/modulos/listar';
+  private permisosUrl = 'http://127.0.0.1:8000/permisos/crear';
 
   constructor(
     private fb: FormBuilder,
@@ -57,7 +57,7 @@ export class CreateRoleDialogComponent {
   loadModules() {
     this.http.get<any>(this.modulesUrl).subscribe(
       response => {
-        this.modules = response.resultado;
+        this.modules = response.modulos;
       },
       error => {
         console.error('Error al cargar los módulos:', error);
