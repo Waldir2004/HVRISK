@@ -1,0 +1,262 @@
+<h2 mat-dialog-title>Registro de Datos Clínicos</h2>
+<mat-dialog-content>
+  <form [formGroup]="predictionForm" (ngSubmit)="onSubmit()">
+    <!-- Sección Datos Clínicos -->
+    <h3 class="section-title">Datos Clínicos</h3>
+    <div class="row">
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">Peso (kg)</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" step="0.1" formControlName="peso_kg" placeholder="Ej. 70.5">
+          <mat-error *ngIf="predictionForm.get('peso_kg')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('peso_kg')?.hasError('min') || predictionForm.get('peso_kg')?.hasError('max')">
+            Debe ser entre 20 y 300 kg
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">Altura (cm)</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" formControlName="altura_cm" placeholder="Ej. 170">
+          <mat-error *ngIf="predictionForm.get('altura_cm')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('altura_cm')?.hasError('min') || predictionForm.get('altura_cm')?.hasError('max')">
+            Debe ser entre 100 y 250 cm
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">Circunferencia cintura (cm)</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" formControlName="circ_cintura_cm" placeholder="Ej. 85">
+          <mat-error *ngIf="predictionForm.get('circ_cintura_cm')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('circ_cintura_cm')?.hasError('min') || predictionForm.get('circ_cintura_cm')?.hasError('max')">
+            Debe ser entre 50 y 200 cm
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">Presión Sistólica</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" formControlName="presion_sistolica" placeholder="Ej. 120">
+          <mat-error *ngIf="predictionForm.get('presion_sistolica')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('presion_sistolica')?.hasError('min') || predictionForm.get('presion_sistolica')?.hasError('max')">
+            Debe ser entre 70 y 250
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">Presión Diastólica</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" formControlName="presion_diastolica" placeholder="Ej. 80">
+          <mat-error *ngIf="predictionForm.get('presion_diastolica')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('presion_diastolica')?.hasError('min') || predictionForm.get('presion_diastolica')?.hasError('max')">
+            Debe ser entre 40 y 150
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">Frecuencia Cardíaca</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" formControlName="frecuencia_cardiaca" placeholder="Ej. 72">
+          <mat-error *ngIf="predictionForm.get('frecuencia_cardiaca')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('frecuencia_cardiaca')?.hasError('min') || predictionForm.get('frecuencia_cardiaca')?.hasError('max')">
+            Debe ser entre 30 y 200
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">LDL (mg/dL)</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" step="0.1" formControlName="ldl" placeholder="Ej. 100.5">
+          <mat-error *ngIf="predictionForm.get('ldl')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('ldl')?.hasError('min') || predictionForm.get('ldl')?.hasError('max')">
+            Debe ser entre 0 y 300
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">HDL (mg/dL)</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" step="0.1" formControlName="hdl" placeholder="Ej. 50.2">
+          <mat-error *ngIf="predictionForm.get('hdl')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('hdl')?.hasError('min') || predictionForm.get('hdl')?.hasError('max')">
+            Debe ser entre 0 y 100
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">Triglicéridos (mg/dL)</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" step="0.1" formControlName="trigliceridos" placeholder="Ej. 150.3">
+          <mat-error *ngIf="predictionForm.get('trigliceridos')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('trigliceridos')?.hasError('min') || predictionForm.get('trigliceridos')?.hasError('max')">
+            Debe ser entre 0 y 1000
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">Glucosa en ayunas (mg/dL)</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" step="0.1" formControlName="glucosa_ayunas" placeholder="Ej. 95.7">
+          <mat-error *ngIf="predictionForm.get('glucosa_ayunas')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('glucosa_ayunas')?.hasError('min') || predictionForm.get('glucosa_ayunas')?.hasError('max')">
+            Debe ser entre 0 y 300
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">HbA1c (%)</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" step="0.1" formControlName="hba1c" placeholder="Ej. 5.7">
+          <mat-error *ngIf="predictionForm.get('hba1c')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('hba1c')?.hasError('min') || predictionForm.get('hba1c')?.hasError('max')">
+            Debe ser entre 0 y 20
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4">
+        <mat-label class="f-w-600 m-b-8 d-block">Creatinina (mg/dL)</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" step="0.1" formControlName="creatinina" placeholder="Ej. 0.9">
+          <mat-error *ngIf="predictionForm.get('creatinina')?.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="predictionForm.get('creatinina')?.hasError('min') || predictionForm.get('creatinina')?.hasError('max')">
+            Debe ser entre 0 y 10
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Sección Antecedentes Médicos -->
+    <h3 class="section-title">Antecedentes Médicos</h3>
+    <div class="row">
+      <div class="col-lg-6">
+        <mat-checkbox formControlName="diabetes">Diabetes</mat-checkbox>
+        <mat-checkbox formControlName="hipertension">Hipertensión</mat-checkbox>
+        <mat-checkbox formControlName="enfermedad_renal">Enfermedad Renal</mat-checkbox>
+        <mat-checkbox formControlName="apnea_sueno">Apnea del Sueño</mat-checkbox>
+      </div>
+      <div class="col-lg-6">
+        <mat-checkbox formControlName="dislipidemia">Dislipidemia</mat-checkbox>
+        <mat-checkbox formControlName="epoc">EPOC</mat-checkbox>
+        <mat-checkbox formControlName="familia_cardiopatia">Familia con Cardiopatía</mat-checkbox>
+        <mat-checkbox formControlName="familia_diabetes">Familia con Diabetes</mat-checkbox>
+      </div>
+
+      <div class="col-lg-12">
+        <mat-label class="f-w-600 m-b-8 d-block">Tabaquismo</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="tabaquismo_id">
+            <mat-option *ngFor="let option of tabaquismoOptions" [value]="option.id">
+              {{ option.nombre }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="predictionForm.get('tabaquismo_id')?.hasError('required')">Campo requerido</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Sección Estilo de Vida -->
+    <h3 class="section-title">Estilo de Vida</h3>
+    <div class="row">
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Actividad Física</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="actividad_fisica_id">
+            <mat-option *ngFor="let option of actividadFisicaOptions" [value]="option.id">
+              {{ option.nombre }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="predictionForm.get('actividad_fisica_id')?.hasError('required')">Campo requerido</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Horas de ejercicio por semana</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" step="0.5" formControlName="horas_ejercicio_semana" placeholder="Ej. 3.5">
+          <mat-error *ngIf="predictionForm.get('horas_ejercicio_semana')?.hasError('min') || predictionForm.get('horas_ejercicio_semana')?.hasError('max')">
+            Debe ser entre 0 y 168 horas
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Consumo de Alcohol</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="consumo_alcohol_id">
+            <mat-option *ngFor="let option of consumoAlcoholOptions" [value]="option.id">
+              {{ option.nombre }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="predictionForm.get('consumo_alcohol_id')?.hasError('required')">Campo requerido</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Consumo de Cafeína</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="consumo_cafeina_id">
+            <mat-option *ngFor="let option of consumoCafeinaOptions" [value]="option.id">
+              {{ option.nombre }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="predictionForm.get('consumo_cafeina_id')?.hasError('required')">Campo requerido</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-checkbox formControlName="dieta_alta_sodio">Dieta alta en sodio</mat-checkbox>
+        <mat-checkbox formControlName="dieta_alta_grasas">Dieta alta en grasas</mat-checkbox>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Horas de sueño diario</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="number" step="0.5" formControlName="horas_sueno_diario" placeholder="Ej. 7.5">
+          <mat-error *ngIf="predictionForm.get('horas_sueno_diario')?.hasError('min') || predictionForm.get('horas_sueno_diario')?.hasError('max')">
+            Debe ser entre 0 y 24 horas
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Calidad del sueño</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="calidad_sueno_id">
+            <mat-option *ngFor="let option of calidadSuenoOptions" [value]="option.id">
+              {{ option.nombre }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="predictionForm.get('calidad_sueno_id')?.hasError('required')">Campo requerido</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Nivel de estrés</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="nivel_estres_id">
+            <mat-option *ngFor="let option of nivelEstresOptions" [value]="option.id">
+              {{ option.nombre }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="predictionForm.get('nivel_estres_id')?.hasError('required')">Campo requerido</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="button-container">
+  <button mat-flat-button color="warn" (click)="onCancel()">Cancelar</button>
+  <button mat-flat-button color="primary" [disabled]="!predictionForm.valid" (click)="onSubmit()">Guardar</button>
+</mat-dialog-actions>

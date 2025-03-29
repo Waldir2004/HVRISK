@@ -57,8 +57,8 @@ export class EditRoleDialogComponent implements OnInit {
     console.log('Role ID:', this.data.roleId);
     this.http.get(`http://127.0.0.1:8000/roles/obtener/${this.data.roleId}`).subscribe((role: any) => {
       this.editRoleForm.patchValue({
-        nombre: role.modulos.nombre,
-        estado: role.modulos.estado === 1 ? 'activo' : 'inactivo'
+        nombre: role.rol.nombre,
+        estado: role.rol.estado === 1 ? 'activo' : 'inactivo'
       });
     });
   }

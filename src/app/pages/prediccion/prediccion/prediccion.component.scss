@@ -1,0 +1,53 @@
+.cardWithShadow {
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 16px;
+  }
+  
+  .add-button {
+    margin-left: auto !important;
+    display: flex;
+    align-items: center;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+  
+  .b-t-1 {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    padding-top: 16px;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .w-100 {
+    width: 100%;
+  }
+  
+  .no-data-message {
+    text-align: center;
+    padding: 24px;
+    color: rgba(0, 0, 0, 0.54);
+  }
+  
+  /* Estilos para los niveles de riesgo */
+  .risk-low {
+    color: #4caf50; /* Verde */
+    font-weight: 500;
+  }
+  
+  .risk-medium {
+    color: #ff9800; /* Naranja */
+    font-weight: 500;
+  }
+  
+  .risk-high {
+    color: #f44336; /* Rojo */
+    font-weight: 500;
+  }
+  
+  mat-icon-button {
+    margin: 0 4px;
+  }
