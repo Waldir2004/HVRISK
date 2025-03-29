@@ -38,8 +38,8 @@ export class RolesComponent implements OnInit {
   }
 
   loadRoles(): void {
-    this.http.get('http://127.0.0.1:8000/get_roles').subscribe((response: any) => {
-      this.dataSource1 = response.resultado;
+    this.http.get('http://127.0.0.1:8000/roles/listar').subscribe((response: any) => {
+      this.dataSource1 = response.roles;
     });
   }
 

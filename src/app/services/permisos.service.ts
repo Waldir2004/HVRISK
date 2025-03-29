@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PermisosService {
-  private apiUrl = 'http://127.0.0.1:8000/get_permisos_por_rol';
+  private apiUrl = 'http://127.0.0.1:8000/permisos/por-rol';
 
   constructor(private http: HttpClient) {}
 
