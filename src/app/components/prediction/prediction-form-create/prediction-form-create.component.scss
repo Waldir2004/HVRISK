@@ -1,0 +1,75 @@
+.section-title {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    color: #3f51b5;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+  
+  .col-lg-4, .col-lg-6, .col-lg-12 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  
+  @media (min-width: 992px) {
+    .col-lg-4 {
+      flex: 0 0 33.333333%;
+      max-width: 33.333333%;
+    }
+    
+    .col-lg-6 {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+    
+    .col-lg-12 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  
+  .f-w-600 {
+    font-weight: 600;
+  }
+  
+  .m-b-8 {
+    margin-bottom: 8px;
+  }
+  
+  .d-block {
+    display: block;
+  }
+  
+  .w-100 {
+    width: 100%;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  mat-checkbox {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  mat-form-field {
+    margin-bottom: 15px;
+  }
+  
+  mat-error {
+    font-size: 12px;
+  }

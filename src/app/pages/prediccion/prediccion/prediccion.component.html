@@ -1,167 +1,55 @@
 <mat-card class="cardWithShadow theme-card">
   <mat-card-header>
-    <mat-card-title class="m-b-0">Prediccion de riesgo de enfermedades cardiovasculares Carlos me la chupa</mat-card-title>
+    <mat-card-title class="m-b-0">Predicción de riesgo</mat-card-title>
+    <button mat-raised-button color="primary" class="add-button" (click)="openPredictionModal()">
+      <mat-icon>add</mat-icon> Nueva Predicción
+    </button>
   </mat-card-header>
   <mat-card-content class="b-t-1">
-    <form [formGroup]="prediccionForm" (ngSubmit)="onSubmit()">
-      <div class="row">
+    <!-- Tabla de predicciones existentes -->
+    <div class="table-responsive" *ngIf="dataSource.length > 0; else noData">
+      <table mat-table [dataSource]="dataSource" class="w-100">
+        <!-- Columna Fecha -->
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef>Fecha</th>
+          <td mat-cell *matCellDef="let element">{{element.fecha | date:'mediumDate'}}</td>
+        </ng-container>
 
-        <!-- Edad -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Edad</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput type="number" placeholder="Ingresa tu edad en años"
-              formControlName="edad" required>
-          </mat-form-field>
-        </div>
+        <!-- Columna Riesgo HVI -->
+        <ng-container matColumnDef="riesgoHvi">
+          <th mat-header-cell *matHeaderCellDef>Riesgo HVI</th>
+          <td mat-cell *matCellDef="let element">
+            <span [class]="getRiskClass(element.riesgoHvi)">{{element.riesgoHvi}}%</span>
+          </td>
+        </ng-container>
 
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Genero</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="genero" placeholder="Indica tu genero">
-              <mat-option *ngFor="let genero of generos" [value]="genero.id">
-                {{ genero.nombre }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <!-- Columna Riesgo HVD -->
+        <ng-container matColumnDef="riesgoHvd">
+          <th mat-header-cell *matHeaderCellDef>Riesgo HVD</th>
+          <td mat-cell *matCellDef="let element">
+            <span [class]="getRiskClass(element.riesgoHvd)">{{element.riesgoHvd}}%</span>
+          </td>
+        </ng-container>
 
-        <!-- Altura -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Altura (cm)</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput type="number"
-              placeholder="Escribe tu altura en centímetros"
-              formControlName="altura_cm" required>
-          </mat-form-field>
-        </div>
+        <!-- Columna Acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="viewDetails(element.id)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-        <!-- Peso -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Peso (kg)</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput type="number" placeholder="Introduce tu peso en kilogramos"
-              formControlName="peso_kg" required>
-          </mat-form-field>
-        </div>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
 
-        <!-- Presión Sistólica -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Presión Sistólica</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput type="number"
-              placeholder="Introduce tu presión arterial sistólica"
-              formControlName="presion_sistolica" required>
-          </mat-form-field>
-        </div>
-
-        <!-- Presión Diastólica -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Presión Diastólica</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput type="number"
-              placeholder="Introduce tu presión arterial diastólica"
-              formControlName="presion_diastolica" required>
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Colesterol</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="colesterol" placeholder="Indica el nivel de colesterol">
-              <mat-option *ngFor="let col of colesterol" [value]="col.id">
-                {{ col.nombre }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Glucosa</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="glucosa" placeholder="Indica el nivel de glucosa">
-              <mat-option *ngFor="let glu of glucosa" [value]="glu.id">
-                {{ glu.nombre }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <!-- Fuma -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Fuma</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="fuma" placeholder="Indica si fumas">
-              <mat-option [value]="true">Sí</mat-option>
-              <mat-option [value]="false">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <!-- Alcohol -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Alcohol</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="alcohol"
-              placeholder="Indica si consumes alcohol">
-              <mat-option [value]="true">Sí</mat-option>
-              <mat-option [value]="false">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <!-- Dieta -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Dieta</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="dieta" placeholder="Indica si sigues una dieta saludable">
-              <mat-option [value]="true">Sí</mat-option>
-              <mat-option [value]="false">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <!-- Actividad Física -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Actividad Física</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="actividad_fisica"
-              placeholder="Indica si realizas actividad física regularmente">
-              <mat-option [value]="true">Sí</mat-option>
-              <mat-option [value]="false">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <!-- Antecedentes Familiares -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Antecedentes Familiares</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="antecedentes_familiares"
-              placeholder="¿Tienes antecedentes familiares de enfermedades cardiovasculares?">
-              <mat-option [value]="true">Sí</mat-option>
-              <mat-option [value]="false">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <!-- Diabetes -->
-        <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Diabetes</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="diabetes" placeholder="Indica si tienes diabetes">
-              <mat-option [value]="true">Sí</mat-option>
-              <mat-option [value]="false">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
+    <ng-template #noData>
+      <div class="no-data-message">
+        <p>No hay predicciones registradas. Haz clic en "Nueva Predicción" para comenzar.</p>
       </div>
-
-      <div class="m-t-12">
-        <button mat-raised-button color="primary" type="submit">Enviar</button>
-<button mat-raised-button color="warn" (click)="resetForm()" style="margin-left: 8px;">Limpiar todo</button>
-      </div>
-    </form>
+    </ng-template>
   </mat-card-content>
 </mat-card>

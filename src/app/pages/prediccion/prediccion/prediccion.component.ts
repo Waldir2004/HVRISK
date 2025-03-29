@@ -1,136 +1,94 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogContentComponent } from './../../../components/dialog-content/dialog-content.component';
+import { HttpClient } from '@angular/common/http';
+import { PredictionFormCreateComponent } from '../../../components/prediction/prediction-form-create/prediction-form-create.component';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 @Component({
   selector: 'app-prediccion',
   standalone: true,
   imports: [
     CommonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
     ReactiveFormsModule,
-    MatRadioModule,
     MatButtonModule,
     MatCardModule,
+    MatTableModule,
+    MatIconModule,
+    MatDialogModule,
+    MatStepperModule,
+    MatFormFieldModule,
     MatInputModule,
-    MatCheckboxModule,
+    MatSelectModule,
+    MatCheckboxModule
   ],
   templateUrl: './prediccion.component.html',
-  styleUrl: './prediccion.component.scss'
+  styleUrls: ['./prediccion.component.scss']
 })
 export class PrediccionComponent implements OnInit {
-  prediccionForm: FormGroup;
-  generos: any[] = [];
-  colesterol: any[] = [];
-  glucosa: any[] = [];
+  displayedColumns: string[] = ['fecha', 'riesgoHvi', 'riesgoHvd', 'acciones'];
+  dataSource: any[] = [];
 
-
-  constructor(private fb: FormBuilder,
-    private http: HttpClient,
-    private dialog: MatDialog
-  ) {
-    this.prediccionForm = this.fb.group({
-      // edad: ['', Validators.required],
-      // colesterol: ['', Validators.required],
-      // glucosa: ['', Validators.required],
-      // presionArterial: ['', Validators.required],
-      // genero: ['', Validators.required],
-      // usuario_id: [''],
-    });
-  }
+  constructor(
+    private dialog: MatDialog,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
-    // this.loadGeneros();
-    // this.loadColesterol();
-    // this.loadGlucosa();
+    this.loadPredictions();
   }
 
-  // loadGeneros(): void {
-  //   this.http.get<any>(this.getGeneros).subscribe(
-  //     response => {
-  //       this.generos = response.resultado;
-  //       console.log('Generos cargados:', this.generos);
-  //     },
-  //     error => {
-  //       console.error('Error al cargar los generos:', error);
-  //     }
-  //   );
-  // }
-
-  // loadColesterol(): void {
-  //   this.http.get<any>(this.getColesterol).subscribe(
-  //     response => {
-  //       this.colesterol = response.resultado;
-  //     },
-  //     error => {
-  //       console.error('Error al cargar los generos:', error);
-  //     }
-  //   );
-  // }
-
-  // loadGlucosa(): void {
-  //   this.http.get<any>(this.getGlucosa).subscribe(
-  //     response => {
-  //       this.glucosa = response.resultado;
-  //       console.log('Generos cargados:', this.generos);
-  //     },
-  //     error => {
-  //       console.error('Error al cargar los generos:', error);
-  //     }
-  //   );
-  // }
-
-  onSubmit(): void {
-    // if (this.prediccionForm.valid) {
-    //   const token = localStorage.getItem('decodedToken');
-    //   if (token) {
-    //     try {
-    //       const decodedToken = JSON.parse(token);
-    //       const id = decodedToken?.id;
-    //       if (id) {
-    //         this.prediccionForm.patchValue({ usuario_id: id });
-    //       }
-    //     } catch (error) {
-    //       console.error('Error parsing token from localStorage', error);
-    //     }
-    //   }
-    //   console.log('Formulario válido:', this.prediccionForm.value);
-    //   this.http.post(this.createPrediccionUrl, this.prediccionForm.value).subscribe(
-    //     (response: any) => {
-    //       console.log('Predicción creada exitosamente:', response);
-    //       this.openDialog(response.mensaje, response.recomendaciones);
-    //     },
-    //     error => {
-    //       console.error('Error al crear la predicción:', error);
-    //     }
-    //   );
-    // } else {
-    //   console.error('Formulario no válido');
-    // }
-  }
-
-  openDialog(mensaje: string, recomendaciones: string[]): void {
-    this.dialog.open(DialogContentComponent, {
-      data: {
-        mensaje: mensaje,
-        recomendaciones: recomendaciones
+  loadPredictions(): void {
+    // Ejemplo de carga de datos
+    this.http.get<any>('api/evaluaciones').subscribe({
+      next: (response) => {
+        this.dataSource = response.data;
+      },
+      error: (err) => {
+        console.error('Error al cargar predicciones:', err);
       }
     });
   }
 
-  resetForm(): void {
-    this.prediccionForm.reset();
+  openPredictionModal(): void {
+    const dialogRef = this.dialog.open(PredictionFormCreateComponent, {
+      width: '800px',
+      maxHeight: '90vh',
+      disableClose: true,
+      autoFocus: false,
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadPredictions(); // Recargar lista si se creó una nueva predicción
+      }
+    });
+  }
+
+  viewDetails(id: number): void {
+    // Lógica para ver detalles completos
+    console.log('Ver detalles de:', id);
+  }
+
+  getRiskClass(riskPercentage: number): string {
+    if (riskPercentage < 30) {
+      return 'risk-low';
+    } else if (riskPercentage >= 30 && riskPercentage < 70) {
+      return 'risk-medium';
+    } else {
+      return 'risk-high';
+    }
   }
 }
