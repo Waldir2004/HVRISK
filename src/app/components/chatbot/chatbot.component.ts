@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ChatbotComponent {
   message: string = '';
-  response: string = '';
+  chatHistory: { sender: string; text: string }[] = [];
   isChatOpen: boolean = false;
 
   constructor(private http: HttpClient) {}
@@ -23,15 +23,26 @@ export class ChatbotComponent {
   }
 
   sendMessage() {
+    if (!this.message.trim()) return;
+
+    // Agregar el mensaje del usuario al historial
+    this.chatHistory.push({ sender: 'user', text: this.message });
+
     const payload = { message: this.message };
-    this.http.post('http://0.0.0.0:5005/webhooks/rest/webhook', payload).subscribe(
-      (res: any) => {
-        this.response = res.reply;
-        this.message = ''; // Clear the input field after sending the message
+    this.http.post<any>('http://localhost:5005/webhooks/rest/webhook', payload).subscribe(
+      (res) => {
+        if (res && res.length > 0) {
+          res.forEach((response: any) => {
+            this.chatHistory.push({ sender: 'bot', text: response.text });
+          });
+        }
       },
       (error) => {
         console.error('Error:', error);
+        this.chatHistory.push({ sender: 'bot', text: 'Hubo un error al conectarse con el chatbot.' });
       }
     );
+
+    this.message = ''; // Limpiar la caja de texto
   }
 }
