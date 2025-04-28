@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-create-user-dialog',
+  selector: 'app-create-patient-dialog',
   standalone: true,
   imports: [
     CommonModule,
@@ -27,13 +27,13 @@ import { HttpClient } from '@angular/common/http';
     MatCard,
     MatCardContent,
   ],
-  templateUrl: './create-user-dialog.component.html',
-  styleUrl: './create-user-dialog.component.scss',
+  templateUrl: './create-patient-dialog.component.html',
+  styleUrl: './create-patient-dialog.component.scss',
 })
-export class CreateUserDialogComponent {
+export class CreatePatientDialogComponent {
+
   hide = true;
   userForm: FormGroup;
-  roles: any[] = [];
   generos: any[] = [];
   doctores: any[] = []; 
   tiposIdentificacion: any[] = [];
@@ -44,74 +44,80 @@ export class CreateUserDialogComponent {
   ];
 
   private createUser = 'http://127.0.0.1:8000/usuarios/crear';
-  private getRoles = 'http://127.0.0.1:8000/roles/listar';
-  private getGeneros ='http://127.0.0.1:8000/parametros-valor/por-parametro/2';
-  private getTipoIdentificacion ='http://127.0.0.1:8000/parametros-valor/por-parametro/1';
-  private getDoctores = 'http://127.0.0.1:8000/usuarios/por-rol/2'; // Endpoint para obtener doctores
+  private getGeneros = 'http://127.0.0.1:8000/parametros-valor/por-parametro/2';
+  private getTipoIdentificacion = 'http://127.0.0.1:8000/parametros-valor/por-parametro/1';
+  private getDoctores = 'http://127.0.0.1:8000/usuarios/por-rol/2';
 
-  currentUserRoleId: number | null = null;
+  isAdmin: boolean = false;
+  isDoctor: boolean = false;
   currentUserId: number | null = null;
-  currentUserRoleName: string | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<CreateUserDialogComponent>,
+    private dialogRef: MatDialogRef<CreatePatientDialogComponent>,
     private http: HttpClient
   ) {
     this.userForm = this.fb.group({
       userName: ['', Validators.required],
       userLastName: ['', Validators.required],
       userEmail: ['', [Validators.required, Validators.email]],
-      userPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(12), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/)],],
-      userRole: ['', Validators.required],
       userGender: ['', Validators.required],
       userDate: ['', Validators.required],
       userTipoIdentificacion: ['', Validators.required],
       userNumberIdentification: ['', Validators.required],
-      userPhone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      userPhone: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10),
+        ],
+      ],
       userAdress: ['', Validators.required],
       userStatus: [{ value: 1, disabled: true }, Validators.required],
-      doctorAsignado: [null] 
+      doctorAsignado: [null]
     });
 
-    // Escuchar cambios en el rol para mostrar/ocultar campo de contraseña
-    this.userForm.get('userRole')?.valueChanges.subscribe(roleId => {
-      this.updatePasswordFieldState(roleId);
-      this.updateDoctorFieldState(roleId);
-    });
-
-    this.getCurrentUserInfo();
+    this.checkUserRole();
   }
 
-  private getCurrentUserInfo(): void {
+  private checkUserRole(): void {
     const token = localStorage.getItem('decodedToken');
     if (token) {
       try {
         const decodedToken = JSON.parse(token);
-        this.currentUserRoleId = decodedToken?.rol_id;
         this.currentUserId = decodedToken?.id;
-        this.currentUserRoleName = decodedToken?.role_name;
-        console.log('Current user info:', {
-          id: this.currentUserId,
-          roleId: this.currentUserRoleId,
-          roleName: this.currentUserRoleName
+        this.isAdmin = decodedToken?.rol_id === 1 || decodedToken?.role_name?.toLowerCase() === 'administrador';
+        this.isDoctor = decodedToken?.rol_id === 2 || decodedToken?.role_name?.toLowerCase() === 'doctor';
+        
+        console.log('Rol del usuario:', {
+          isAdmin: this.isAdmin,
+          isDoctor: this.isDoctor,
+          userId: this.currentUserId
         });
+
+        // Si es doctor, asignarse automáticamente
+        if (this.isDoctor && this.currentUserId) {
+          this.userForm.patchValue({
+            doctorAsignado: this.currentUserId
+          });
+        }
+
       } catch (error) {
         console.error('Error parsing decoded token:', error);
       }
     }
   }
 
-
   ngOnInit() {
     this.userForm.get('userStatus')?.disable();
-    this.loadRoles();
     this.loadGeneros();
     this.loadTipoIdentificacion();
-    this.loadDoctores();
+    if (this.isAdmin) {
+      this.loadDoctores();
+    }
   }
 
-  // Nuevo método para cargar doctores
   loadDoctores(): void {
     this.http.get<any>(this.getDoctores).subscribe(
       (response) => {
@@ -119,32 +125,6 @@ export class CreateUserDialogComponent {
       },
       (error) => {
         console.error('Error al cargar los doctores:', error);
-      }
-    );
-  }
-
-  // Actualizar estado del campo doctor
-  private updateDoctorFieldState(roleId: number): void {
-    const doctorControl = this.userForm.get('doctorAsignado');
-    const isPatient = roleId === 3 || (this.roles.find(r => r.id === roleId)?.nombre === 'Paciente');
-    
-    if (isPatient) {
-      doctorControl?.setValidators([Validators.required]);
-    } else {
-      doctorControl?.clearValidators();
-      doctorControl?.setValue(null);
-    }
-    doctorControl?.updateValueAndValidity();
-  }
-
-
-  loadRoles(): void {
-    this.http.get<any>(this.getRoles).subscribe(
-      (response) => {
-        this.roles = response.roles;
-      },
-      (error) => {
-        console.error('Error al cargar los roles:', error);
       }
     );
   }
@@ -178,26 +158,13 @@ export class CreateUserDialogComponent {
     }
   }
 
-  // Método para actualizar el estado del campo de contraseña
-  private updatePasswordFieldState(roleId: number): void {
-    const passwordControl = this.userForm.get('userPassword');
-    if (roleId === 3) { // Paciente
-      passwordControl?.clearValidators();
-      passwordControl?.disable();
-    } else {
-      passwordControl?.setValidators([
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(12),
-        Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/)
-      ]);
-      passwordControl?.enable();
-    }
-    passwordControl?.updateValueAndValidity();
-  }
 
   // Generar nombre de usuario automático
-  private generateUsername(nombre: string, apellido: string, identificacion: string): string {
+  private generateUsername(
+    nombre: string,
+    apellido: string,
+    identificacion: string
+  ): string {
     const firstLetterName = nombre.charAt(0).toUpperCase();
     const firstLetterLastName = apellido.charAt(0).toUpperCase();
     return `${firstLetterName}${firstLetterLastName}${identificacion}`;
@@ -205,30 +172,23 @@ export class CreateUserDialogComponent {
 
   // Generar contraseña automática para pacientes
   private generatePatientPassword(
-    nombre: string, 
-    apellido: string, 
+    nombre: string,
+    apellido: string,
     fechaNacimiento: string
   ): string {
     const firstLetterName = nombre.charAt(0).toUpperCase();
     const firstLetterLastName = apellido.charAt(0).toUpperCase();
-    
+
     const [year, month, day] = fechaNacimiento.split('-');
-  const formattedDate = `${day}${month}${year}`;
-    
+    const formattedDate = `${day}${month}${year}`;
+
     return `${firstLetterName}${firstLetterLastName}${formattedDate}*`;
   }
 
   onSubmit(): void {
     if (this.userForm.valid) {
       const formData = this.userForm.value;
-      const isPatient = formData.userRole === 3 || 
-                       (this.roles.find(r => r.id === formData.userRole)?.nombre === 'Paciente');
-      
-      // Verificar si el creador es doctor
-      const isDoctor = this.currentUserRoleId === 2 || 
-                      this.currentUserRoleName?.toLowerCase() === 'doctor';
 
-      
       // Generar usuario automático
       const username = this.generateUsername(
         formData.userName,
@@ -237,20 +197,18 @@ export class CreateUserDialogComponent {
       );
 
       // Generar contraseña automática si es paciente
-      const password = isPatient 
-        ? this.generatePatientPassword(
-            formData.userName,
-            formData.userLastName,
-            formData.userDate
-          )
-        : formData.userPassword;
+      const password = this.generatePatientPassword(
+        formData.userName,
+        formData.userLastName,
+        formData.userDate
+      );
 
       const user = {
         nombre: formData.userName,
         apellido: formData.userLastName,
         correo_electronico: formData.userEmail,
         contraseña: password,
-        rol_id: formData.userRole,
+        rol_id: 3, // Asignar rol de paciente por defecto
         genero: formData.userGender,
         fecha_nacimiento: formData.userDate,
         tipo_identificacion: formData.userTipoIdentificacion,
@@ -259,7 +217,7 @@ export class CreateUserDialogComponent {
         direccion: formData.userAdress,
         foto_usuario: this.selectedFile ? this.selectedFile.name : null,
         estado: true,
-        usuario: username // Nuevo campo para el nombre de usuario
+        usuario: username, // Nuevo campo para el nombre de usuario
       };
 
       console.log('Datos del usuario a crear:', user);
@@ -267,11 +225,14 @@ export class CreateUserDialogComponent {
       this.http.post(this.createUser, user).subscribe(
         (response: any) => {
           console.log('Usuario creado exitosamente:', response);
+
+          // Si es paciente y el creador es doctor, crear relación
+          // Determinar doctor_id según el rol del usuario autenticado
+          const doctorId = this.isAdmin ? formData.doctorAsignado : this.currentUserId;
           
-          // Si es paciente y se seleccionó un doctor, crear relación
-          if (isPatient && formData.doctorAsignado && response.id) {
+          if (doctorId && response.id) {
             const relacion = {
-              doctor_id: formData.doctorAsignado,
+              doctor_id: doctorId,
               paciente_id: response.id
             };
             
@@ -280,7 +241,7 @@ export class CreateUserDialogComponent {
               error => console.error('Error creando relación doctor-paciente:', error)
             );
           }
-          
+
           this.dialogRef.close(response);
         },
         (error) => {

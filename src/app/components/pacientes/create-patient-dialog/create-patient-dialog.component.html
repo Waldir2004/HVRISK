@@ -17,62 +17,44 @@
         </mat-form-field>
       </div>
       <div class="col-lg-6">
-        <!-- Rol -->
-        <mat-label class="f-w-600 m-b-8 d-block">Rol</mat-label>
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-select formControlName="userRole">
-            <mat-option *ngFor="let role of roles" [value]="role.id">
-              {{ role.nombre }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="col-lg-6" *ngIf="userForm.get('userRole')?.value === 3">
-        <mat-label class="f-w-600 m-b-8 d-block">Doctor asignado</mat-label>
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-select formControlName="doctorAsignado">
-            <mat-option *ngFor="let doctor of doctores" [value]="doctor.id">
-              {{ doctor.nombre }} {{ doctor.apellido }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      
-      <div class="col-lg-6">
         <!-- Apellidos -->
         <mat-label class="f-w-600 m-b-8 d-block">Correo electronico</mat-label>
         <mat-form-field appearance="outline" class="w-100" color="primary">
           <input matInput formControlName="userEmail" placeholder="Correo electrónico del usuario" required />
         </mat-form-field>
       </div>
-      <!-- Campo de contraseña con *ngIf -->
-      <div class="col-lg-6" *ngIf="userForm.get('userRole')?.value !== 3">
-        <mat-label class="f-w-600 m-b-8 d-block">Contraseña</mat-label>
-        <mat-form-field appearance="outline" class="w-100" color="primary">
-          <input matInput [type]="hide ? 'password' : 'text'" formControlName="userPassword"
-            placeholder="Contraseña del usuario" />
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-hint>Mínimo 8 caracteres, 1 mayúscula, 1 número y 1 carácter especial</mat-hint>
-          <mat-error *ngIf="userForm.get('userPassword')?.hasError('required')">
-            La contraseña es requerida
-          </mat-error>
-          <!-- otros mensajes de error -->
+
+      <!-- Campo de doctor asignado (solo para admin) -->
+      <div class="col-lg-6" *ngIf="isAdmin">
+        <mat-label class="f-w-600 m-b-8 d-block">Doctor asignado</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="doctorAsignado" [required]="isAdmin">
+            <mat-option *ngFor="let doctor of doctores" [value]="doctor.id">
+              {{ doctor.nombre }} {{ doctor.apellido }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
 
       <!-- Mensaje para pacientes -->
-      <div class="col-12" *ngIf="userForm.get('userRole')?.value === 3">
+      <div class="col-12">
         <mat-card class="info-card">
           <mat-card-content>
             <mat-icon>info</mat-icon>
-            <span>Para pacientes, la contraseña se generará automáticamente</span>
+            <span>La contraseña se generará automáticamente</span>
           </mat-card-content>
         </mat-card>
       </div>
+
+      <!-- Podrías añadir para doctores: -->
+<div class="col-12" *ngIf="isDoctor">
+  <mat-card class="info-card">
+    <mat-card-content>
+      <mat-icon>info</mat-icon>
+      <span>El paciente será asignado automáticamente a usted</span>
+    </mat-card-content>
+  </mat-card>
+</div>
 
       <div class="col-lg-6">
         <!-- Rol -->

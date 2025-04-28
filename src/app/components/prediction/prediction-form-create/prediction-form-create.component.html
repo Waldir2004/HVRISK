@@ -1,6 +1,20 @@
 <h2 mat-dialog-title>Registro de Datos Clínicos</h2>
 <mat-dialog-content>
   <form [formGroup]="predictionForm" (ngSubmit)="onSubmit()">
+
+    <h3 class="section-title">Paciente</h3>
+    <div class="row">
+    <div class="col-lg-12">
+      <mat-label class="f-w-600 m-b-8 d-block">Paciente asignado</mat-label>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-select formControlName="pacienteAsignado">
+          <mat-option *ngFor="let patient of patients" [value]="patient.id">
+            {{ patient.nombre }} {{ patient.apellido }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
     <!-- Sección Datos Clínicos -->
     <h3 class="section-title">Datos Clínicos</h3>
     <div class="row">
