@@ -39,6 +39,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 export class PrediccionComponent implements OnInit {
   displayedColumns: string[] = ['fecha', 'riesgoHvi', 'riesgoHvd', 'acciones'];
   dataSource: any[] = [];
+  isAdmin: boolean = false;
+  isDoctor: boolean = false;
+  currentUserId: number | null = null;
 
   constructor(
     private dialog: MatDialog,
@@ -47,6 +50,21 @@ export class PrediccionComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPredictions();
+    this.checkUserRole();
+  }
+
+  private checkUserRole(): void {
+    const token = localStorage.getItem('decodedToken');
+    if (token) {
+      try {
+        const decodedToken = JSON.parse(token);
+        this.currentUserId = decodedToken?.id;
+        this.isAdmin = decodedToken?.rol_id === 1 || decodedToken?.role_name?.toLowerCase() === 'administrador';
+        this.isDoctor = decodedToken?.rol_id === 2 || decodedToken?.role_name?.toLowerCase() === 'doctor';
+      } catch (error) {
+        console.error('Error al analizar el token:', error);
+      }
+    }
   }
 
   loadPredictions(): void {

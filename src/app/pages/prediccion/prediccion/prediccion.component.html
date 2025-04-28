@@ -1,7 +1,7 @@
 <mat-card class="cardWithShadow theme-card">
   <mat-card-header>
     <mat-card-title class="m-b-0">Predicción de riesgo</mat-card-title>
-    <button mat-raised-button color="primary" class="add-button" (click)="openPredictionModal()">
+    <button *ngIf="isDoctor" mat-raised-button color="primary" class="add-button" (click)="openPredictionModal()">
       <mat-icon>add</mat-icon> Nueva Predicción
     </button>
   </mat-card-header>

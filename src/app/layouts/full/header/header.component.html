@@ -23,8 +23,15 @@
   <!-- --------------------------------------------------------------- -->
   <!-- profile Dropdown -->
   <!-- --------------------------------------------------------------- -->
-  <button mat-icon-button [matMenuTriggerFor]="profilemenu" aria-label="Notifications">
-    <img src="/assets/images/profile/profile.png" class="rounded-circle object-cover icon-35 profile-dd" width="35" />
+  <button mat-icon-button [matMenuTriggerFor]="profilemenu" aria-label="Profile">
+    <img 
+      [src]="userPhoto" 
+      class="rounded-circle object-cover icon-35 profile-dd" 
+      width="35" 
+      height="35"
+      (error)="userPhoto = defaultPhoto"
+      alt="User profile"
+    />
   </button>
   <mat-menu #profilemenu="matMenu" class="cardWithShadow">
     <!-- <button mat-menu-item>

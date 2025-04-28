@@ -2,12 +2,14 @@
   <div class="user-profile profile-bar" style="background: url(assets/images/backgrounds/user-info.jpg) no-repeat">
     <!-- User profile image -->
     <div class="profile-img">
-      <img src="assets/images/profile/profile.png" alt="user" width="50" class="rounded-circle" />
+      <img 
+        [src]="userPhoto" 
+        alt="user" 
+        width="50" 
+        class="rounded-circle"
+        (error)="userPhoto = defaultPhoto"
+      />
     </div>
-    <!-- User profile text-->
-    <!-- ============================================================== -->
-    <!-- Profile - style you can find in header.scss -->
-    <!-- ============================================================== -->
     <div class="profile-text">
       <a [matMenuTriggerFor]="sdprofile" class="d-flex align-items-center text-white w-100 f-s-16">
         {{ userName }}

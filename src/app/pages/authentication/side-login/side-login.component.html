@@ -5,8 +5,11 @@
     <div class="login-info-panel">
       <div class="info-content">
         <h1>HVRISK</h1>
-        <h2>Check Your Project Progress</h2>
-        <p>Lorem ipsum dolor sit amet tristique urna, brem sed pellentesque</p>
+        <h2>Detectar a tiempo es dar más vida</h2>
+        <p>
+          Más que una plataforma, es tu <strong>aliado en el diagnóstico</strong>.  
+          Juntos detectamos lo que otros podrían pasar por alto.
+        </p>
       </div>
     </div>
     
@@ -20,7 +23,7 @@
           <div class="login-title">Inicia sesión</div>
           
           <div class="social-login">
-            <button mat-stroked-button class="google-btn">
+            <button mat-stroked-button class="google-btn" (click)="onClickGoogle()">
               <img src="/assets/images/svgs/google-icon.svg" alt="google" />
               <span>Continuar con Google</span>
             </button>
@@ -28,8 +31,9 @@
           
           <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
             <mat-form-field appearance="outline" class="form-field">
-              <mat-label>Correo electrónico</mat-label>
+              <mat-label>Usuario o Correo electrónico</mat-label>
               <input matInput formControlName="uname" />
+              <mat-error *ngIf="form.get('uname')?.hasError('required')">Campo requerido</mat-error>
             </mat-form-field>
             
             <mat-form-field appearance="outline" class="form-field">

@@ -6,58 +6,63 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Dashboard',
-    iconName: 'layout-grid-add',
+    iconName: 'layout-dashboard',
     route: '/dashboard',
   },
   {
     navCap: 'Modulos',
   },
   {
-    displayName: 'Pacientes',
-    iconName: 'user',
-    route: '/paciente',
-  },
-  {
     displayName: 'Prediccion',
-    iconName: 'nurse',
+    iconName: 'heart-rate-monitor',
     route: '/prediccion',
   },
   {
     displayName: 'ECG',
-    iconName: 'history',
+    iconName: 'heartbeat',
     route: '/ecg',
   },
   {
+    displayName: 'Evaluaciones',
+    iconName: 'clipboard-check',
+    route: '/evaluaciones',
+  },
+  {
     displayName: 'Resultados',
-    iconName: 'calendar-clock',
+    iconName: 'report-analytics',
     route: '/resultados',
   },
   {
     displayName: 'NutriAnalizador',
-    iconName: 'calendar-clock',
+    iconName: 'salad',
     route: '/nutrianalizador',
   },
   {
     navCap: 'Configuraciones',
   },
   {
+    displayName: 'Pacientes',
+    iconName: 'user-plus',
+    route: '/pacientes',
+  },
+  {
     displayName: 'Perfil',
-    iconName: 'user',
+    iconName: 'user-circle',
     route: '/perfil',
   },
   {
     displayName: 'Usuarios',
-    iconName: 'users-group',
+    iconName: 'users',
     route: '/usuarios',
   },
   {
     displayName: 'Roles',
-    iconName: 'user-circle',
+    iconName: 'shield-lock',
     route: '/roles',
   },
   {
     displayName: 'Parametros',
-    iconName: 'user-circle',
+    iconName: 'settings-cog',
     route: '/parametros',
   },
 ];
@@ -74,6 +79,7 @@ export function getFilteredNavItems(permisos: string[]): NavItem[] {
     '8': '/usuarios',
     '9': '/roles',
     '10': '/parametros',
+    '11': '/evaluaciones',
   };
 
   const rutasPermitidas = permisos.map(id => mapaPermisosRutas[id]).filter(route => route);

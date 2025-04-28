@@ -31,10 +31,10 @@ export const routes: Routes = [
           import('./pages/pages.routes').then((m) => m.PagesRoutes),
       },
       {
-        path: 'pacientes',
+        path: 'evaluaciones',
         loadChildren: () =>
-          import('./pages/pacientes/pacientes.module').then(
-            (m) => m.PacientesModule
+          import('./pages/evaluaciones/evaluaciones.module').then(
+            (m) => m.EvaluacionesModule
           ),
       },
       {
@@ -70,6 +70,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./pages/perfil/perfil.module').then(
             (m) => m.PerfilModule
+          ),
+      },
+      {
+        path: 'pacientes',
+        loadChildren: () =>
+          import('./pages/pacientes/pacientes.module').then(
+            (m) => m.PacientesModule
           ),
       },
       {

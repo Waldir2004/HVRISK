@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateUserDialogComponent } from 'src/app/components/users/create-user-dialog/create-user-dialog.component';
 import { EditUserDialogComponent } from 'src/app/components/users/edit-user-dialog/edit-user-dialog.component';
-import { ConfirmDialogComponent } from 'src/app/components/users/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog-deleted/confirm-dialog.component';  
 
 
 @Component({
